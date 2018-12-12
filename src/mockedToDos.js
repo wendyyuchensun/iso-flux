@@ -12,7 +12,7 @@ const mockedToDos = [
     {
         id: 3,
         title: 'cook dinner',
-        completed: false
+        completed: true
     },
     {
         id: 4,
