@@ -1,13 +1,17 @@
 const express = require('express');
+const ReactDOMServer = require('react-dom/server');
 const Store = require('./Store');
 const mockedToDos = require('./mockedToDos');
+const ToDos = require('./ToDos');
+const connect = require('./connect');
 
-const createPageHTML = storeState => `
+const createPageHTML = (App, storeState) => `
     <html>
         <head>
             <title>ToDos</title>
         </head>
         <body>
+            <div class="root">${ReactDOMServer.renderToString(App)}</div>
             <script>
                 window.storeState = ${JSON.stringify(storeState)};
             </script>
@@ -19,10 +23,11 @@ const server = express();
 
 server.get('/', (req, res) => {
     const store = new Store();
-    store.populateToDos(mockedToDos);
+    store.populateState({ todos: mockedToDos });
 
+    const App = connect(ToDos, store);
     const storeState = store.getState();
-    const pageHTML = createPageHTML(storeState);
+    const pageHTML = createPageHTML(App, storeState);
 
     res.send(pageHTML);
 });
