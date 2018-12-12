@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const Store = require('./Store');
 const ToDos = require('./ToDos');
@@ -9,7 +10,7 @@ server.get('/', (req, res) => {
     // create a store
     const store = new Store();
 
-    // populate the store with initial data
+    // populate the store with (async) data
     store.populateState({ todos: mockedToDos });
 
     // connect app to store
@@ -20,6 +21,10 @@ server.get('/', (req, res) => {
     const storeState = store.getState();
     const pageHTML = createPageHTML(App, storeState);
     res.send(pageHTML);
+});
+
+server.get('/dist/client.js', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'dist', 'client.js'));
 });
 
 server.listen(8080, () => console.log('Server on.'));

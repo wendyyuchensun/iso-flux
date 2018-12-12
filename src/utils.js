@@ -6,14 +6,17 @@ const ReactDOMServer = require('react-dom/server');
 class Container extends React.Component {
     constructor (props) {
         super(props);
+
         this.state = { updateTime: 0 };
+
+        this.update = this.update.bind(this);
         this.props.store.registerCallback(this.update);
     }
 
     update () {
         const { updateTime } = this.state;
-        updateTime++;
-        this.setState({ updateTime });
+        const newUpdateTime = updateTime + 1;
+        this.setState({ updateTime: newUpdateTime });
     }
 
     render () {
@@ -67,6 +70,7 @@ const createPageHTML = (App, storeState) => `
             <script>
                 window.storeState = ${JSON.stringify(storeState)};
             </script>
+            <script src="./dist/client.js"></script>
         </body>
     </html>
 `;

@@ -2,7 +2,7 @@ const React = require('react');
 const classNames = require('classnames');
 
 const ToDo = ({ todo, indx, toggleToDo }) => {
-    const { title, completed } = todo;
+    const { id, title, completed } = todo;
 
     const key = `todo-${indx}`;
     const className = classNames('todo', { completed });

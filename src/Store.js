@@ -2,6 +2,7 @@ class Store {
     constructor () {
         this.state = { todos: [] };
         this.callback = null;
+        this.toggleToDo = this.toggleToDo.bind(this);
     }
 
     getState () {
@@ -10,7 +11,7 @@ class Store {
 
     populateState (state) {
         this.state = state;
-        if (this.callback) this.callback(this.state);
+        if (this.callback) this.callback();
     }
 
     toggleToDo (id) {
@@ -22,7 +23,7 @@ class Store {
             return todo;
         });
 
-        this.state.todos = newTodos;
+        this.populateState({ todos: newTodos });
     }
 
     registerCallback (fn) {
